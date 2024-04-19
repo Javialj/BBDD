@@ -256,20 +256,43 @@ BEGIN
     DECLARE i INT;
 
     SET i = 1;
+    DELETE FROM cuadrados;
     WHILE i <= n DO
-        SET cuadrado = i * i;
-        DELETE FROM cuadrados;
+            SET cuadrado = i * i;
+            INSERT INTO cuadrados VALUES (i,cuadrado);
         SELECT cuadrado;
         SET i = i + 1;
     end while;
 end $$;
 
 DELIMITER :
-CALL calcular_cuadrados(5);
+CALL calcular_cuadrados(6);
 
+#13. Utilice un bucle REPEAT para resolver el procedimiento del ejercicio anterior.
+
+#14. Utilice un bucle LOOP para resolver el procedimiento del ejercicio anterior.
 #15. Crea una base de datos llamada procedimientos que contenga una tabla llamada ejercicio. La tabla debe tener una única columna llamada número y el tipo de dato de esta columna debe ser INT UNSIGNED.
 # Una vez creada la base de datos y la tabla deberá crear un procedimiento llamado calcular_números con las siguientes características. El procedimiento recibe un parámetro de entrada llamado valor_inicial de tipo INT UNSIGNED y deberá almacenar en la tabla ejercicio toda la secuencia de números desde el valor inicial pasado como entrada hasta el 1.
 # Tenga en cuenta que el procedimiento deberá eliminar el contenido actual de las tablas antes de insertar los nuevos valores.
+CREATE TABLE ejercicio (
+    numero INT UNSIGNED
+);
+DELIMITER $$;
+DROP PROCEDURE IF EXISTS caLcular_numeros;
+CREATE PROCEDURE calcular_numeros (IN valor_icicial INT UNSIGNED)
+BEGIN
+    DECLARE i INT;
+    SET i = valor_icicial;
+        DELETE FROM ejercicio;
+    WHILE i >= 1 DO
+            INSERT INTO ejercicio VALUES (i);
+            SET i = i - 1;
+    end while;
+end $$;
+
+DELIMITER :
+
+CALL calcular_numeros(5);
 #18. Crea una base de datos llamada procedimientos que contenga una tabla llamada pares y otra tabla llamada impares. Las dos tablas deben tener única columna llamada número y el tipo de dato de esta columna debe ser INT UNSIGNED.
 #Una vez creada la base de datos y las tablas deberá crear un procedimiento llamado calcular_pares_impares con las siguientes características. El procedimiento recibe un parámetro de entrada llamado tope de tipo INT UNSIGNED y deberá almacenar en la tabla pares aquellos números pares que existan entre el número 1 el valor introducido como parámetro. Habrá que realizar la misma operación para almacenar los números impares en la tabla impares.
 #Tenga en cuenta que el procedimiento deberá eliminar el contenido actual de las tablas antes de insertar los nuevos valores.
